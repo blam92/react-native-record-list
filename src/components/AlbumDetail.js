@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import Card from './Card';
+import CardSection from './CardSection';
 
 const AlbumDetail = ({ title }) => (
   <Card>
-    <Text>{ title }</Text>
+    <CardSection>
+      <Text style={{ fontSize: 20 }}>{ title }</Text>
+    </CardSection>
   </Card>
 );
 

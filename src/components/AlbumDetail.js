@@ -1,15 +1,17 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Linking } from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
+import Button from './Button';
 
-const AlbumDetail = ({ title, artist, thumbnail_image, image }) => {
+const AlbumDetail = ({ title, artist, thumbnail_image, image, url }) => {
   const { 
     thumbnailStyle,
     headerContentStyle, 
     thumbnailContainerStyle,
     headerFontSize,
-    imageStyle
+    imageStyle,
+    centerElements
    } = styles;
 
   return (
@@ -26,6 +28,11 @@ const AlbumDetail = ({ title, artist, thumbnail_image, image }) => {
       <CardSection>
         <Image style={imageStyle} source={{ uri: image }} />
       </CardSection>
+      <CardSection>
+        <View style={centerElements}>
+          <Button color={'#827717'} onPress={() => Linking.openURL(url)} />
+        </View>
+      </CardSection>
     </Card>
   );
 }
@@ -33,7 +40,7 @@ const AlbumDetail = ({ title, artist, thumbnail_image, image }) => {
 const styles = {
   headerContentStyle: {
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: 'space-around'
   },
   thumbnailStyle: {
     height: 50,
@@ -52,6 +59,11 @@ const styles = {
     height: 300,
     flex: 1,
     width: null
+  },
+  centerElements: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
   }
 }
 export default AlbumDetail;

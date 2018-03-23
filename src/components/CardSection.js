@@ -7,8 +7,8 @@ const CardSection = ({ children }) => {
     <View style={containerStyle}>
       {children}
     </View>
-  )
-}
+  );
+};
 
 const styles = {
   containerStyle: {
@@ -20,6 +20,6 @@ const styles = {
     borderColor: '#DDD',
     position: 'relative'
   }
-}
+};
 
 export default CardSection;

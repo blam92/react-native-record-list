@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, Image, Linking } from 'react-native';
-import Card from './Card';
-import CardSection from './CardSection';
-import Button from './Button';
+import { Card, Button, CardSection } from './common';
+
 
 const AlbumDetail = ({ title, artist, thumbnail_image, image, url }) => {
   const { 
@@ -35,7 +34,7 @@ const AlbumDetail = ({ title, artist, thumbnail_image, image, url }) => {
       </CardSection>
     </Card>
   );
-}
+};
 
 const styles = {
   headerContentStyle: {
@@ -65,5 +64,6 @@ const styles = {
     alignItems: 'center',
     flex: 1
   }
-}
+};
+
 export default AlbumDetail;

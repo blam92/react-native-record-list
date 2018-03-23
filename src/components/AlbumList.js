@@ -30,10 +30,4 @@ class AlbumList extends Component {
   }
 }
 
-const styles = {
-  text: {
-    fontSize: 20
-  }
-};
-
 export default AlbumList;

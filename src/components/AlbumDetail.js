@@ -29,7 +29,7 @@ const AlbumDetail = ({ title, artist, thumbnail_image, image, url }) => {
       </CardSection>
       <CardSection>
         <View style={centerElements}>
-          <Button color={'#827717'} onPress={() => Linking.openURL(url)} />
+          <Button color={'#827717'} onPress={() => Linking.openURL(url)} title={'BUY NOW'} />
         </View>
       </CardSection>
     </Card>

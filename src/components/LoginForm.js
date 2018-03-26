@@ -1,6 +1,7 @@
 import { Text } from 'react-native';
 import firebase from 'firebase';
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-native';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
 export default class LoginForm extends Component {
@@ -8,12 +9,13 @@ export default class LoginForm extends Component {
     email: '',
     password: '',
     loginError: null,
-    loading: false
+    loading: false,
+    loggedIn: false
   };
 
   onButtonPress() {
     const { email, password } = this.state;
-    this.setState({ loginError: null, loading: true });
+    this.setState({ loginError: '', loading: true });
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(this.onLoginSucces.bind(this))
       .catch(() => {
@@ -26,18 +28,28 @@ export default class LoginForm extends Component {
   onLoginSucces() {
     this.setState({ 
       loading: false,
-      password: ''
+      password: '',
+      loggedIn: true,
+      loginError: 'LOGIN SUCCESS'
     });
   }
 
-  onLoginFailure() {
+  onLoginFailure(err) {
     this.setState({
-      error: 'Authentication failed.',
+      loginError: `Authentication failed. ${err}`,
       loading: false,
     });
   }
 
+  redirect() {
+    return <Redirect to={'/albumlist'} />;
+  }
+
   render() {
+    if(this.state.loggedIn) {
+      return this.redirect();
+    }
+
     return (
       <Card>
         <CardSection>

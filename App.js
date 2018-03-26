@@ -15,15 +15,43 @@ import LoginForm from './src/components/LoginForm';
 import AlbumList from './src/components/AlbumList';
 
 export default class App extends Component {
+  state = {
+    loggedIn: false
+  }
+
   componentDidMount() {
     firebase.initializeApp(config.firbaseConfig);
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user) {
+        this.setState({
+          loggedIn: true
+        });
+      } else {
+        this.setState({
+          loggedIn: false
+        });
+      }
+    });
   }
+
+  changeLoggedInState(state) {
+    this.setState({
+      loggedIn: state
+    });
+  }
+
   render() {
     return (
       <NativeRouter>
         <View style={{ flex: 1 }}>
           <Header headerText="Auth" /> 
-          <Route exact path='/' render={() => <LoginForm />} />
+          <Route 
+            exact path='/'
+            render={() => <LoginForm 
+              loggedIn={this.state.loggedIn} 
+              changeLoggedInState={this.changeLoggedInState.bind(this)} 
+            />} 
+          />
           <Route path='/albumlist' component={AlbumList} />
         </View>
       </NativeRouter>

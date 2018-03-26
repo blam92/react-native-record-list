@@ -9,8 +9,7 @@ export default class LoginForm extends Component {
     email: '',
     password: '',
     loginError: null,
-    loading: false,
-    loggedIn: false
+    loading: false
   };
 
   onButtonPress() {
@@ -29,9 +28,9 @@ export default class LoginForm extends Component {
     this.setState({ 
       loading: false,
       password: '',
-      loggedIn: true,
       loginError: 'LOGIN SUCCESS'
     });
+    this.props.changeLoggedInState(true);
   }
 
   onLoginFailure(err) {
@@ -46,7 +45,7 @@ export default class LoginForm extends Component {
   }
 
   render() {
-    if(this.state.loggedIn) {
+    if(this.props.loggedIn) {
       return this.redirect();
     }
 

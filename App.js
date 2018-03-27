@@ -9,26 +9,30 @@ import { View } from 'react-native';
 import firebase from 'firebase';
 import { NativeRouter, Route } from 'react-router-native';
 
-import { Header } from './src/components/common';
+import { Header, Spinner } from './src/components/common';
 import config from './config';
 import LoginForm from './src/components/LoginForm';
 import AlbumList from './src/components/AlbumList';
 
 export default class App extends Component {
   state = {
-    loggedIn: false
+    loggedIn: false,
+    spinner: false
   }
 
   componentDidMount() {
     firebase.initializeApp(config.firbaseConfig);
+    this.setState({ spinner: true });
     firebase.auth().onAuthStateChanged((user) => {
       if(user) {
         this.setState({
-          loggedIn: true
+          loggedIn: true,
+          spinner: false
         });
       } else {
         this.setState({
-          loggedIn: false
+          loggedIn: false,
+          spinner: false
         });
       }
     });
@@ -39,8 +43,17 @@ export default class App extends Component {
       loggedIn: state
     });
   }
+  signOut() {
+    this.setState({
+      spinner: true
+    });
+    firebase.auth().signOut();
+  }
 
   render() {
+    if(this.state.spinner) {
+      return <Spinner />;
+    }
     return (
       <NativeRouter>
         <View style={{ flex: 1 }}>
@@ -49,10 +62,12 @@ export default class App extends Component {
             exact path='/'
             render={() => <LoginForm 
               loggedIn={this.state.loggedIn} 
-              changeLoggedInState={this.changeLoggedInState.bind(this)} 
+              changeLoggedInState={this.changeLoggedInState.bind(this)}
             />} 
           />
-          <Route path='/albumlist' component={AlbumList} />
+          <Route 
+          path='/albumlist' 
+          render={() => <AlbumList signOut={this.signOut.bind(this)} />} />
         </View>
       </NativeRouter>
     );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import AlbumDetail from './AlbumDetail';
+import { Button } from './common';
 
 class AlbumList extends Component {
   state = { 
@@ -22,9 +23,12 @@ class AlbumList extends Component {
 
   render() {
     return (
-      <ScrollView>
-        {this.renderAlbums()}
-      </ScrollView>
+      <View>
+        <Button title={'Log Out'} onPress={this.props.signOut} color={'#827717'} />
+        <ScrollView>
+          {this.renderAlbums()}
+        </ScrollView>
+      </View>
     );
   }
 }

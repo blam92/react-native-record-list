@@ -1,16 +1,20 @@
 import { Text } from 'react-native';
-import firebase from 'firebase';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-native';
+import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
 export default class LoginForm extends Component {
-  state = {
-    email: '',
-    password: '',
-    loginError: null,
-    loading: false
-  };
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      email: '',
+      password: '',
+      loginError: null,
+      loading: false
+    };
+  }
 
   onButtonPress() {
     const { email, password } = this.state;
@@ -23,7 +27,6 @@ export default class LoginForm extends Component {
           .catch(this.onLoginFailure.bind(this));
       });
   }
-
   onLoginSucces() {
     this.setState({ 
       loading: false,
@@ -75,7 +78,8 @@ export default class LoginForm extends Component {
           <Spinner /> : 
           <Button 
             style={styles.buttonStyle} 
-            title={'Sign In'} 
+            title={'Sign In'}
+            color={'#827717'} 
             onPress={this.onButtonPress.bind(this)} 
           />}
         </CardSection>

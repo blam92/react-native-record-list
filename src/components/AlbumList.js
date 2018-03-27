@@ -3,7 +3,6 @@ import { ScrollView, View } from 'react-native';
 import AlbumDetail from './AlbumDetail';
 import { BottomNav } from './common';
 
-const highlight = 'F0F4C3';
 class AlbumList extends Component {
   state = { 
     albums: []
@@ -30,13 +29,13 @@ class AlbumList extends Component {
         iconColor: '#827717'
       },
       {
-        onPress: () => 2,
+        onPress: () => alert('HELLO!'),
         label: 'Tech Stack',
         icon: 'code',
         iconColor: '#827717'
       },
       {
-        onPress: () => this.props.signOut,
+        onPress: this.props.signOut,
         label: 'Sign Out',
         icon: 'power-settings-new',
         iconColor: '#827717'

@@ -7,14 +7,15 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import firebase from 'firebase';
-import { NativeRouter, Route } from 'react-router-native';
+import { Route, withRouter } from 'react-router-native';
 
 import { Header, Spinner } from './src/components/common';
 import config from './config';
 import LoginForm from './src/components/LoginForm';
 import AlbumList from './src/components/AlbumList';
+import TechStack from './src/components/TechStack';
 
-export default class App extends Component {
+class App extends Component {
   state = {
     loggedIn: false,
     spinner: false
@@ -38,6 +39,32 @@ export default class App extends Component {
     });
   }
 
+  navItems = {
+    labelColor: '#827717',
+    onTabChange: () => 2,
+    backgroundColor: '#CDDC39',
+    tabs: [
+      {
+        onPress: () => this.props.history.push('/albumlist'),
+        label: 'Music',
+        icon: 'music-note',
+        iconColor: '#827717'
+      },
+      {
+        onPress: () => this.props.history.push('/techstack'),
+        label: 'Tech Stack',
+        icon: 'code',
+        iconColor: '#827717'
+      },
+      {
+        onPress: this.signOut.bind(this),
+        label: 'Sign Out',
+        icon: 'power-settings-new',
+        iconColor: '#827717'
+      }
+    ]
+  };
+
   changeLoggedInState(state) {
     this.setState({
       loggedIn: state
@@ -55,7 +82,6 @@ export default class App extends Component {
       return <Spinner />;
     }
     return (
-      <NativeRouter>
         <View style={{ flex: 1 }}>
           <Header headerText="Auth" /> 
           <Route 
@@ -66,10 +92,17 @@ export default class App extends Component {
             />} 
           />
           <Route 
-          path='/albumlist' 
-          render={() => <AlbumList signOut={this.signOut.bind(this)} />} />
+            path='/albumlist' 
+            render={() => <AlbumList navItems={this.navItems} />} 
+          />
+          <Route 
+            path='/techstack' 
+            render={() => <TechStack navItems={this.navItems} />} 
+          />
         </View>
-      </NativeRouter>
     );
   }
 }
+
+
+export default withRouter(App);

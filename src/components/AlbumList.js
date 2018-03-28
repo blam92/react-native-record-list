@@ -17,33 +17,6 @@ class AlbumList extends Component {
     .catch((err) => console.log(err));
   }
 
-  navItems = {
-    labelColor: '#827717',
-    onTabChange: () => 2,
-    backgroundColor: '#CDDC39',
-    tabs: [
-      {
-        onPress: () => 2,
-        label: 'Music',
-        icon: 'music-note',
-        iconColor: '#827717'
-      },
-      {
-        onPress: () => alert('HELLO!'),
-        label: 'Tech Stack',
-        icon: 'code',
-        iconColor: '#827717'
-      },
-      {
-        onPress: this.props.signOut,
-        label: 'Sign Out',
-        icon: 'power-settings-new',
-        iconColor: '#827717'
-      }
-    ]
-  };
-
-
   renderAlbums() {
     return this.state.albums.map((album) => <AlbumDetail key={album.title} {...album} />);
   }
@@ -54,7 +27,7 @@ class AlbumList extends Component {
         <ScrollView>
           {this.renderAlbums()}
         </ScrollView>
-        <BottomNav {...this.navItems} />
+        <BottomNav {...this.props.navItems} />
       </View>
     );
   }

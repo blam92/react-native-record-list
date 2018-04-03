@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import firebase from 'firebase';
 import { Route, withRouter } from 'react-router-native';
+import { connect } from 'react-redux';
 
 import { Header, Spinner } from './src/components/common';
 import config from './config';
@@ -72,9 +73,11 @@ class App extends Component {
   }
   signOut() {
     this.setState({
-      spinner: true
-    });
-    firebase.auth().signOut();
+      spinner: true,
+      loggedIn: false
+    }, () => this.props.history.push('/'));
+    firebase.auth().signOut()
+      .then(() => this.setState({ spinner: false }));
   }
 
   render() {
@@ -83,17 +86,19 @@ class App extends Component {
     }
     return (
         <View style={{ flex: 1 }}>
-          <Header headerText="Auth" /> 
+          <Header headerText={this.props.header} /> 
           <Route 
             exact path='/'
-            render={() => <LoginForm 
-              loggedIn={this.state.loggedIn} 
-              changeLoggedInState={this.changeLoggedInState.bind(this)}
-            />} 
+            render={() => (
+                <LoginForm 
+                  loggedIn={this.state.loggedIn} 
+                  changeLoggedInState={this.changeLoggedInState.bind(this)}
+                />
+              )}
           />
           <Route 
             path='/albumlist' 
-            render={() => <AlbumList navItems={this.navItems} />} 
+            render={() => <AlbumList navItems={this.navItems} />}
           />
           <Route 
             path='/techstack' 
@@ -104,5 +109,10 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    header: state.header
+  }
+};
 
-export default withRouter(App);
+export default withRouter(connect(mapStateToProps)(App));

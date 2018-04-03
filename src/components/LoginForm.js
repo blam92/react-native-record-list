@@ -2,9 +2,10 @@ import { Text } from 'react-native';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-native';
 import firebase from 'firebase';
+import { connect } from 'react-redux';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   constructor(props) {
     super(props);
     
@@ -14,6 +15,10 @@ export default class LoginForm extends Component {
       loginError: null,
       loading: false
     };
+  }
+
+  componentDidMount() {
+    this.props.dispatch({ type: 'SHOW_LOGIN' });
   }
 
   onButtonPress() {
@@ -98,3 +103,5 @@ const styles = {
     flex: 1
   }
 };
+
+export default connect()(LoginForm);

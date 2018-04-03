@@ -1,21 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { BottomNav } from './common';
 import ListItem from './ListItem';
 
-const TechStack = ({ navItems, libraries }) => (
-  <View style={{ flex: 1 }}>
-    <FlatList
-      data={libraries}
-      renderItem={({ item }) => 
-        <ListItem {...item} />
-      }
-      keyExtractor={item => item.id.toString()}
-    />
-    <BottomNav {...navItems} />
-  </View>
-);
+class TechStack extends Component {
+
+  componentDidMount() {
+    this.props.dispatch({ type: 'SHOW_TECHSTACK' });
+  }
+
+  render() {
+    const { navItems, libraries } = this.props;
+    return (
+      <View style={{ flex: 1 }}>
+        <FlatList
+          data={libraries}
+          renderItem={({ item }) => 
+            <ListItem {...item} />
+          }
+          keyExtractor={item => item.id.toString()}
+        />
+        <BottomNav {...navItems} />
+      </View>
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   return {
@@ -24,12 +34,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    selectLibrary: (id) => {
-      dispatch({ type: 'CHANGE_SELECTED', selectedId: id });
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TechStack);
+export default connect(mapStateToProps)(TechStack);

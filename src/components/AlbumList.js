@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView, View } from 'react-native';
+import { connect } from 'react-redux';
 import AlbumDetail from './AlbumDetail';
 import { BottomNav } from './common';
 
@@ -9,6 +10,8 @@ class AlbumList extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch({ type: 'SHOW_MUSIC' });
+
     fetch('https://rallycoding.herokuapp.com/api/music_albums')
     .then((res) => res.json())
     .then((data) => {
@@ -33,4 +36,4 @@ class AlbumList extends Component {
   }
 }
 
-export default AlbumList;
+export default connect()(AlbumList);

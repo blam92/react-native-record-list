@@ -102,19 +102,16 @@ const styles = {
   }
 };
 
-const mapStateToProps = (state) => {
-  return {
-    email: state.auth.email,
-    password: state.auth.password
-  }
-};
+const mapStateToProps = (state) => ({
+  email: state.auth.email,
+  password: state.auth.password
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
     onEmailChanged: (e) => dispatch(emailChanged(e)),
     onPasswordChanged: (p) => dispatch(passwordChanged(p)),
     dispatch
-  };
-};
+});
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -9,4 +9,4 @@ export default (state = { email: '', password: '' }, action) => {
     default:
       return state;
   }
-}
+};

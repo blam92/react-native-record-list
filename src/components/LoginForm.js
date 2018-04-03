@@ -4,14 +4,13 @@ import { Redirect } from 'react-router-native';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Button, Card, CardSection, Input, Spinner } from './common';
+import { emailChanged, passwordChanged } from '../actions';
 
 class LoginForm extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      email: '',
-      password: '',
       loginError: null,
       loading: false
     };
@@ -22,7 +21,7 @@ class LoginForm extends Component {
   }
 
   onButtonPress() {
-    const { email, password } = this.state;
+    const { email, password } = this.props;
     this.setState({ loginError: '', loading: true });
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(this.onLoginSucces.bind(this))
@@ -35,7 +34,6 @@ class LoginForm extends Component {
   onLoginSucces() {
     this.setState({ 
       loading: false,
-      password: '',
       loginError: 'LOGIN SUCCESS'
     });
     this.props.changeLoggedInState(true);
@@ -53,26 +51,26 @@ class LoginForm extends Component {
   }
 
   render() {
+    const { email, password, onEmailChanged, onPasswordChanged } = this.props;
     if(this.props.loggedIn) {
       return this.redirect();
     }
-
     return (
       <Card>
         <CardSection>
           <Input 
             label={'Email'} 
             placeholder={'user@gmail.com'}
-            value={this.state.email}
-            onChangeText={(email) => this.setState({ email })}
+            value={email}
+            onChangeText={(e) => onEmailChanged(e)}
           />
         </CardSection>
         <CardSection>
         <Input 
           label={'Password'} 
           placeholder={'password'}
-          value={this.state.password}
-          onChangeText={(password) => this.setState({ password })}
+          value={password}
+          onChangeText={(p) => onPasswordChanged(p)}
           secureText
         />
         </CardSection>
@@ -104,4 +102,19 @@ const styles = {
   }
 };
 
-export default connect()(LoginForm);
+const mapStateToProps = (state) => {
+  return {
+    email: state.auth.email,
+    password: state.auth.password
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onEmailChanged: (e) => dispatch(emailChanged(e)),
+    onPasswordChanged: (p) => dispatch(passwordChanged(p)),
+    dispatch
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableWithoutFeedback, View, LayoutAnimation } from 'react-native';
+import { connect } from 'react-redux';
 import { CardSection } from './common';
 
 class ListItem extends Component {
 
+  componentWillUpdate() {
+    LayoutAnimation.spring();
+  }
+  
   renderDescription() {
-    alert('description CALLED!');
-    if(this.props.selectedId === this.props.id) {
-      return (<Text> {this.props.description}</Text>)
+    const { shouldExpand, description } = this.props;
+    if(shouldExpand) {
+      return (
+        <CardSection>
+          <Text> {description}</Text>
+        </CardSection>
+      );
     }
 
     return null;
@@ -15,10 +24,16 @@ class ListItem extends Component {
   render() {
     const { titleStyle } = styles;
     return (
-      <CardSection>
-        <Text style={titleStyle} onPress={() => this.props.selectLibrary(this.props.id)}> {this.props.title} </Text>
-        {this.renderDescription()}
-      </CardSection>
+      <TouchableWithoutFeedback onPress={() => this.props.selectLibrary(this.props.id)}>
+        <View>
+          <CardSection>
+            <Text style={titleStyle}> 
+              {this.props.title} 
+            </Text>
+          </CardSection>
+          {this.renderDescription()}
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -32,4 +47,20 @@ const styles = {
   }
 };
 
-export default ListItem;
+
+const mapStateToProps = (state, ownProps) => {
+  const expanded = state.selectedLibrary === ownProps.id;
+  return {
+    shouldExpand: expanded
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    selectLibrary: (id) => {
+      dispatch({ type: 'CHANGE_SELECTED', selectedId: id });
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListItem);

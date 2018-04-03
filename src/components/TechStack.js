@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { BottomNav } from './common';
 import ListItem from './ListItem';
 
-const TechStack = ({ navItems, libraries, selectedId, selectLibrary }) => (
+const TechStack = ({ navItems, libraries }) => (
   <View style={{ flex: 1 }}>
     <FlatList
       data={libraries}
       renderItem={({ item }) => 
-        <ListItem {...item} selectedId={selectedId} selectLibrary={selectLibrary} />
+        <ListItem {...item} />
       }
       keyExtractor={item => item.id.toString()}
     />

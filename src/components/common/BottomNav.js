@@ -3,8 +3,7 @@ import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const BottomNav = ({ labelColor, onTabChange, backgroundColor, tabs }) => {
-  const tabComponents = tabs.map((tab) => {
-    return (
+  const tabComponents = tabs.map((tab) => (
       <Tab
         key={tab.label}
         onPress={tab.onPress}
@@ -12,8 +11,7 @@ const BottomNav = ({ labelColor, onTabChange, backgroundColor, tabs }) => {
         label={tab.label}
         icon={<Icon size={24} color={tab.iconColor} name={tab.icon} />}
       />
-    );
-  });
+  ));
   return (
   <BottomNavigation
     labelColor={labelColor}

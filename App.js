@@ -90,10 +90,7 @@ class App extends Component {
           <Route 
             exact path='/'
             render={() => (
-                <LoginForm 
-                  loggedIn={this.state.loggedIn} 
-                  changeLoggedInState={this.changeLoggedInState.bind(this)}
-                />
+                <LoginForm loggedIn={this.state.loggedIn} />
               )}
           />
           <Route 
@@ -109,10 +106,6 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    header: state.header
-  }
-};
+const mapStateToProps = (state) => ({ header: state.header });
 
 export default withRouter(connect(mapStateToProps)(App));

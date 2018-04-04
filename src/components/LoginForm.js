@@ -1,19 +1,11 @@
 import { Text } from 'react-native';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-native';
-import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
 
 class LoginForm extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      loading: false
-    };
-  }
 
   componentDidMount() {
     this.props.dispatch({ type: 'SHOW_LOGIN' });
@@ -21,23 +13,7 @@ class LoginForm extends Component {
 
   onButtonPress() {
     const { email, password, logUser } = this.props;
-    this.setState({ loading: true });
     logUser(email, password);
-  }
-  onLoginSucces() {
-    const { changeLoggedInState, onEmailChanged, onPasswordChanged } = this.props;
-    this.setState({ 
-      loading: false,
-    });
-    changeLoggedInState(true);
-    onEmailChanged('');
-    onPasswordChanged('');
-  }
-
-  onLoginFailure(err) {
-    this.setState({
-      loading: false,
-    });
   }
 
   redirect() {
@@ -71,7 +47,7 @@ class LoginForm extends Component {
         {this.props.error ? 
         <Text style={styles.errorTextStyle}>{this.props.error.message}</Text> : null}
         <CardSection>
-          {this.state.loading ? 
+          {this.props.loading ? 
           <Spinner /> : 
           <Button 
             style={styles.buttonStyle} 
@@ -99,7 +75,8 @@ const styles = {
 const mapStateToProps = (state) => ({
   email: state.auth.email,
   password: state.auth.password,
-  error: state.auth.error
+  error: state.auth.error,
+  loading: state.loading
 });
 
 const mapDispatchToProps = (dispatch) => ({

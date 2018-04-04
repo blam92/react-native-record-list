@@ -26,7 +26,9 @@ const styles = {
     position: 'relative',
     ...Platform.select({
       ios: {
-        shadowOpacity: 0.2
+        shadowOpacity: 0.2,
+        height: 60,
+        paddingTop: 5
       },
       android: {
         elevation: 9

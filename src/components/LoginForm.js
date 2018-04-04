@@ -11,7 +11,6 @@ class LoginForm extends Component {
     super(props);
     
     this.state = {
-      loginError: null,
       loading: false
     };
   }
@@ -22,21 +21,13 @@ class LoginForm extends Component {
 
   onButtonPress() {
     const { email, password, logUser } = this.props;
-    this.setState({ loginError: '', loading: true });
-    // firebase.auth().signInWithEmailAndPassword(email, password)
-    //   .then(this.onLoginSucces.bind(this))
-    //   .catch(() => {
-    //     firebase.auth().createUserWithEmailAndPassword(email, password)
-    //       .then(this.onLoginSucces.bind(this))
-    //       .catch(this.onLoginFailure.bind(this));
-    //   });
+    this.setState({ loading: true });
     logUser(email, password);
   }
   onLoginSucces() {
     const { changeLoggedInState, onEmailChanged, onPasswordChanged } = this.props;
     this.setState({ 
       loading: false,
-      loginError: 'LOGIN SUCCESS'
     });
     changeLoggedInState(true);
     onEmailChanged('');
@@ -45,7 +36,6 @@ class LoginForm extends Component {
 
   onLoginFailure(err) {
     this.setState({
-      loginError: `Authentication failed. ${err}`,
       loading: false,
     });
   }
@@ -78,8 +68,8 @@ class LoginForm extends Component {
           secureText
         />
         </CardSection>
-        {this.state.loginError ? 
-        <Text style={styles.errorTextStyle}>{this.state.loginError}</Text> : null}
+        {this.props.error ? 
+        <Text style={styles.errorTextStyle}>{this.props.error.message}</Text> : null}
         <CardSection>
           {this.state.loading ? 
           <Spinner /> : 
@@ -108,7 +98,8 @@ const styles = {
 
 const mapStateToProps = (state) => ({
   email: state.auth.email,
-  password: state.auth.password
+  password: state.auth.password,
+  error: state.auth.error
 });
 
 const mapDispatchToProps = (dispatch) => ({

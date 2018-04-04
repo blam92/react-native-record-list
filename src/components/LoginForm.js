@@ -32,11 +32,14 @@ class LoginForm extends Component {
       });
   }
   onLoginSucces() {
+    const { changeLoggedInState, onEmailChanged, onPasswordChanged } = this.props;
     this.setState({ 
       loading: false,
       loginError: 'LOGIN SUCCESS'
     });
-    this.props.changeLoggedInState(true);
+    changeLoggedInState(true);
+    onEmailChanged('');
+    onPasswordChanged('');
   }
 
   onLoginFailure(err) {

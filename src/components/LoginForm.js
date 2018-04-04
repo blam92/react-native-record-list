@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-native';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Button, Card, CardSection, Input, Spinner } from './common';
-import { emailChanged, passwordChanged } from '../actions';
+import { emailChanged, passwordChanged, loginUser } from '../actions';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -21,15 +21,16 @@ class LoginForm extends Component {
   }
 
   onButtonPress() {
-    const { email, password } = this.props;
+    const { email, password, logUser } = this.props;
     this.setState({ loginError: '', loading: true });
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(this.onLoginSucces.bind(this))
-      .catch(() => {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(this.onLoginSucces.bind(this))
-          .catch(this.onLoginFailure.bind(this));
-      });
+    // firebase.auth().signInWithEmailAndPassword(email, password)
+    //   .then(this.onLoginSucces.bind(this))
+    //   .catch(() => {
+    //     firebase.auth().createUserWithEmailAndPassword(email, password)
+    //       .then(this.onLoginSucces.bind(this))
+    //       .catch(this.onLoginFailure.bind(this));
+    //   });
+    logUser(email, password);
   }
   onLoginSucces() {
     const { changeLoggedInState, onEmailChanged, onPasswordChanged } = this.props;
@@ -113,7 +114,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     onEmailChanged: (e) => dispatch(emailChanged(e)),
     onPasswordChanged: (p) => dispatch(passwordChanged(p)),
-    dispatch
+    dispatch,
+    logUser: (email, password) => dispatch(loginUser({ email, password }))
 });
 
 

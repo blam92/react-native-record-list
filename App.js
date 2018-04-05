@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    firebase.initializeApp(config.firbaseConfig);
+    firebase.initializeApp(config.firebaseConfig);
     this.setState({ spinner: true });
     firebase.auth().onAuthStateChanged((user) => {
       if(user) {
